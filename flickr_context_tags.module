@@ -186,12 +186,14 @@ function _flickr_context_tags_machine($ns, $name, $value) {
 
 function flickr_context_tags_flickr_node_machine_tags_alter(&$tag_data, $node, $ns) {
   $tag_data[$ns]['node'] = $node->nid;
-  foreach ($node->taxonomy as $tid => $term) {
-    $name = str_replace('"', '', mb_strtolower($term->name));
-    if (strpos($name, ' ')) {
-      $name = '"' . $name . '"';
+  if (!empty($node->taxonomy)) {
+    foreach ($node->taxonomy as $tid => $term) {
+      $name = str_replace('"', '', mb_strtolower($term->name));
+      if (strpos($name, ' ')) {
+        $name = '"' . $name . '"';
+      }
+      $tag_data[$ns]['is'] = $name;
     }
-    $tag_data[$ns]['is'] = $name;
   }
 }
 
